@@ -1,0 +1,2 @@
+# Colorist
+get random color
