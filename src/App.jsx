@@ -27,8 +27,8 @@ function App() {
     for (let i = 0; i < 6; i += 1) {
       co += letters[Math.floor(Math.random() * 16)];
     }
+    console.log(cols[index].color, cols[index].lock);
     if (cols[index].lock) {
-      console.log(cols[index], index);
       setCols((state) => state.map((el, i) => {
         if (i === index) {
           return {
@@ -50,49 +50,35 @@ function App() {
 
   React.useEffect(() => {
     document.addEventListener('keydown', (event) => {
+      let i = 0;
       switch (event.code) {
         case 'Space':
-
-          console.log('Hi!');
+          while (i < 5) {
+            getRandomColor(i);
+            i += 1;
+          }
           break;
         case 'Digit1':
           getRandomColor(0);
-          console.log('Digit1');
           break;
         case 'Digit2':
-          console.log('Digit2');
+          getRandomColor(1);
           break;
         case 'Digit3':
-          console.log('Digit3');
+          getRandomColor(2);
           break;
         case 'Digit4':
-          console.log('Digit4');
+          getRandomColor(3);
           break;
         case 'Digit5':
-          console.log('Digit5');
+          getRandomColor(4);
           break;
         default:
-          // console.log(event.code);
           break;
       }
     });
   }, []);
-  //   onKeyPressed(event);
 
-  //   console.log(event.code);
-  //   switch (event.code) {
-  //     case 'Space':
-  //       cols.forEach((el, i) => {
-  //         console.log(el);
-  //         // getRandomColor(i);
-  //       });
-
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  // });
   return (
     <div className="body">
       {
