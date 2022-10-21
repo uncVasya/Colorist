@@ -27,16 +27,19 @@ function App() {
     for (let i = 0; i < 6; i += 1) {
       co += letters[Math.floor(Math.random() * 16)];
     }
-    setCols((state) => state.map((el, i) => {
-      if (i === index) {
-        return {
-          color: chroma.random(),
-          lock: el.lock,
+    if (cols[index].lock) {
+      console.log(cols[index], index);
+      setCols((state) => state.map((el, i) => {
+        if (i === index) {
+          return {
+            color: co,
+            lock: el.lock,
 
-        };
-      }
-      return el;
-    }));
+          };
+        }
+        return el;
+      }));
+    }
   }
 
   function getTextColor(i) {
@@ -45,9 +48,51 @@ function App() {
     return `${colText}`;
   }
 
-  document.addEventListener('keydown', (event) => {
-    console.log(event.code);
-  });
+  React.useEffect(() => {
+    document.addEventListener('keydown', (event) => {
+      switch (event.code) {
+        case 'Space':
+
+          console.log('Hi!');
+          break;
+        case 'Digit1':
+          getRandomColor(0);
+          console.log('Digit1');
+          break;
+        case 'Digit2':
+          console.log('Digit2');
+          break;
+        case 'Digit3':
+          console.log('Digit3');
+          break;
+        case 'Digit4':
+          console.log('Digit4');
+          break;
+        case 'Digit5':
+          console.log('Digit5');
+          break;
+        default:
+          // console.log(event.code);
+          break;
+      }
+    });
+  }, []);
+  //   onKeyPressed(event);
+
+  //   console.log(event.code);
+  //   switch (event.code) {
+  //     case 'Space':
+  //       cols.forEach((el, i) => {
+  //         console.log(el);
+  //         // getRandomColor(i);
+  //       });
+
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // });
   return (
     <div className="body">
       {
@@ -61,7 +106,7 @@ function App() {
             className="col"
           >
             <h2
-              onClick={() => (col.lock ? getRandomColor(i) : getRandomColor(6))}
+              onClick={() => getRandomColor(i)}
             >
               {`${col.color}`}
             </h2>
