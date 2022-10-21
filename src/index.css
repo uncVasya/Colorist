@@ -21,7 +21,7 @@
 }
 .col h2 {
     padding: 10px;
-    color: black;
+    /* color: black; */
     border-radius: 10px;
     transition: background 0.5s ;
 }
@@ -41,4 +41,5 @@
  .col img:hover{
     background: rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    color: white;
 }
