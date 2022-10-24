@@ -4,7 +4,7 @@ import chroma from 'chroma-js';
 function App() {
   const oneArr = {
     color: '#FFFFFF',
-    lock: true,
+    lock: false,
   };
   const arr = new Array(5).fill(oneArr);
   const [cols, setCols] = React.useState(arr);
@@ -27,18 +27,50 @@ function App() {
     for (let i = 0; i < 6; i += 1) {
       co += letters[Math.floor(Math.random() * 16)];
     }
-    console.log(cols[index].color, cols[index].lock);
     if (cols[index].lock) {
-      setCols((state) => state.map((el, i) => {
+      const newState = cols.map((el, i) => {
         if (i === index) {
           return {
             color: co,
             lock: el.lock,
-
           };
         }
         return el;
-      }));
+      });
+      setCols(newState);
+    }
+  }
+
+  function setKeyD(keyDown) {
+    let i = 0;
+    switch (keyDown) {
+      case 'Space':
+        while (i < 5) {
+          getRandomColor(i);
+          i += 1;
+        }
+        break;
+      case 'Digit1':
+        getRandomColor(0);
+        break;
+      case 'Digit2':
+        getRandomColor(1);
+        break;
+      case 'Digit3':
+        getRandomColor(2);
+        break;
+      case 'Digit4':
+        getRandomColor(3);
+        break;
+      case 'Digit5':
+        getRandomColor(4);
+        break;
+      case 'Digit0':
+        console.log(cols);
+        break;
+      default:
+        console.log('useEffect-default');
+        break;
     }
   }
 
@@ -49,35 +81,15 @@ function App() {
   }
 
   React.useEffect(() => {
-    document.addEventListener('keydown', (event) => {
-      let i = 0;
-      switch (event.code) {
-        case 'Space':
-          while (i < 5) {
-            getRandomColor(i);
-            i += 1;
-          }
-          break;
-        case 'Digit1':
-          getRandomColor(0);
-          break;
-        case 'Digit2':
-          getRandomColor(1);
-          break;
-        case 'Digit3':
-          getRandomColor(2);
-          break;
-        case 'Digit4':
-          getRandomColor(3);
-          break;
-        case 'Digit5':
-          getRandomColor(4);
-          break;
-        default:
-          break;
-      }
+    window.addEventListener('keydown', (event) => {
+      // setKeyDown(event.code);
+      setKeyD(event.code);
     });
-  }, []);
+  });
+
+  (function getState() {
+    console.log(cols);
+  }());
 
   return (
     <div className="body">
