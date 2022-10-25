@@ -8,6 +8,8 @@ function App() {
   };
   const arr = new Array(5).fill(oneArr);
   const [cols, setCols] = React.useState(arr);
+  const docBody = React.useRef();
+  let keyRef = React.useRef('');
 
   function lockUnlock(index) {
     setCols((state) => state.map((el, i) => {
@@ -27,9 +29,15 @@ function App() {
     for (let i = 0; i < 6; i += 1) {
       co += letters[Math.floor(Math.random() * 16)];
     }
+    console.log('getRandomColor');
+    console.log('cols', cols);
+    console.log('cols[index].lock', cols[index].lock);
+
     if (cols[index].lock) {
       const newState = cols.map((el, i) => {
         if (i === index) {
+          navigator.clipboard.writeText(co);
+          console.log('return');
           return {
             color: co,
             lock: el.lock,
@@ -43,6 +51,7 @@ function App() {
 
   function setKeyD(keyDown) {
     let i = 0;
+    console.log(keyDown);
     switch (keyDown) {
       case 'Space':
         while (i < 5) {
@@ -82,20 +91,29 @@ function App() {
 
   React.useEffect(() => {
     window.addEventListener('keydown', (event) => {
-      // setKeyDown(event.code);
-      setKeyD(event.code);
+      console.log('---', event.code);
+      keyRef = event.code;
+      setKeyD(keyRef);
     });
-  });
+    // docBody.current.addEventListener('click', (event) => {
+    // navigator.clipboard.writeText(event.target.textContent);
+    // });
+  }, []);
 
-  (function getState() {
-    console.log(cols);
+  (function updateColorHash() {
+    document.location.hash = cols.map((el) => el.color).toString().split(',').join('-');
   }());
 
+  // (function getState() {
+  //   console.log(cols);
+  // }());
+
   return (
-    <div className="body">
+    <div className="body" ref={docBody}>
       {
         cols.map((col, i) => (
           <div
+            id="column"
             key={i}
             style={{
               backgroundColor: `${col.color}`,
